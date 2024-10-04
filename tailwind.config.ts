@@ -13,10 +13,6 @@ const config: Config = {
       fontFamily: {
         'open-sans': 'var(--font-open-sans)',
       },
-      colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
-      },
     },
   },
   darkMode: 'class',

@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
 
 import Providers from '@/app/providers'
+import { Footer } from '@/components/footer/Footer'
 import { TopNav } from '@/components/navbar/TopNav'
 import { cn } from '@/lib/utils'
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Providers>
           <TopNav />
           <main>{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
