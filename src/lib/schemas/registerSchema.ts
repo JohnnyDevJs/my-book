@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const registerSchema = z
   .object({
-    fullName: z
+    name: z
       .string()
       .min(1, { message: 'Preencha seu nome completo.' })
       .regex(/\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{0,19}\b/gi, {

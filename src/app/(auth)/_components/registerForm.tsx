@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { FaUserPlus } from 'react-icons/fa'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 
+import { registerUser } from '@/app/actions/authActions'
 import { ErrorMessage } from '@/components/form/ErrorMessage'
 import { RegisterSchema, registerSchema } from '@/lib/schemas/registerSchema'
 
@@ -17,14 +18,28 @@ export function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    setError,
+    formState: { errors, isValid, isSubmitting },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
     mode: 'onTouched',
   })
 
-  const onSubmit = (data: RegisterSchema) => {
-    console.log(data)
+  async function onSubmit(data: RegisterSchema) {
+    const result = await registerUser(data)
+
+    if (result.status === 'success') {
+      console.log('Usuário registrado com sucesso.')
+    } else {
+      if (Array.isArray(result.error)) {
+        result.error.forEach((e) => {
+          const fieldName = e.path.join('.') as 'email' | 'name' | 'password'
+          setError(fieldName, { message: e.message })
+        })
+      } else {
+        setError('root.serverError', { message: result.error })
+      }
+    }
   }
 
   const toggleVisibility = () => setIsVisible(!isVisible)
@@ -51,9 +66,9 @@ export function RegisterForm() {
               size="sm"
               placeholder="Insira seu nome completo"
               onClear={() => console.log('input cleared')}
-              {...register('fullName')}
-              isInvalid={!!errors.fullName}
-              errorMessage={<ErrorMessage message={errors.fullName?.message} />}
+              {...register('name')}
+              isInvalid={!!errors.name}
+              errorMessage={<ErrorMessage message={errors.name?.message} />}
               autoFocus
             />
 
@@ -107,7 +122,7 @@ export function RegisterForm() {
               label="Confirmar senha"
               variant="bordered"
               size="sm"
-              placeholder="Confira sua senha"
+              placeholder="Confirme sua senha"
               endContent={
                 <button
                   className="focus:outline-none"
@@ -135,8 +150,14 @@ export function RegisterForm() {
                 <ErrorMessage message={errors.confirmPassword?.message} />
               }
             />
+            {errors.root?.serverError && (
+              <p className="text-sm text-danger">
+                {errors.root.serverError.message}
+              </p>
+            )}
             <Button
               className="!pointer-events-auto bg-teal-500 font-bold text-white disabled:cursor-not-allowed"
+              isLoading={isSubmitting}
               isDisabled={!isValid}
               fullWidth
               size="lg"

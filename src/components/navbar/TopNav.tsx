@@ -3,11 +3,15 @@ import { Navbar, NavbarBrand, NavbarContent } from '@nextui-org/navbar'
 import Link from 'next/link'
 import { SiGitbook } from 'react-icons/si'
 
+import { auth } from '@/auth'
 import { NavLink } from '@/components/navbar/NavLink'
 
 import { DropdownNav } from './DropdownNav'
+import { UserMenu } from './UserMenu'
 
-export function TopNav() {
+export async function TopNav() {
+  const session = await auth()
+
   return (
     <Navbar
       maxWidth="xl"
@@ -32,22 +36,28 @@ export function TopNav() {
       </NavbarContent>
       <NavbarContent justify="end">
         <DropdownNav />
-        <Button
-          as={Link}
-          href="/login"
-          variant="bordered"
-          className="border-white font-bold text-white max-sm:hidden"
-        >
-          Login
-        </Button>
-        <Button
-          as={Link}
-          href="/register"
-          variant="flat"
-          className="font-bold text-white max-sm:hidden"
-        >
-          Cadastrar
-        </Button>
+        {session?.user ? (
+          <UserMenu user={session.user} />
+        ) : (
+          <>
+            <Button
+              as={Link}
+              href="/login"
+              variant="bordered"
+              className="border-white font-bold text-white max-sm:hidden"
+            >
+              Login
+            </Button>
+            <Button
+              as={Link}
+              href="/register"
+              variant="flat"
+              className="font-bold text-white max-sm:hidden"
+            >
+              Cadastrar
+            </Button>
+          </>
+        )}
       </NavbarContent>
     </Navbar>
   )

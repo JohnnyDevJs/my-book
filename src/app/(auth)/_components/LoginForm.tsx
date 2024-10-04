@@ -2,30 +2,55 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Card, CardBody, CardHeader, Input } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FaLock } from 'react-icons/fa6'
-import { FiEye, FiEyeOff } from 'react-icons/fi'
+import { FiEye, FiEyeOff, FiX } from 'react-icons/fi'
+import { LuShieldAlert } from 'react-icons/lu'
+import { toast } from 'sonner'
+import colors from 'tailwindcss/colors'
 
+import { signInUser } from '@/app/actions/authActions'
 import { ErrorMessage } from '@/components/form/ErrorMessage'
 import { LoginSchema, loginSchema } from '@/lib/schemas/loginSchema'
 
 export function LoginForm() {
   const [isVisible, setIsVisible] = useState(false)
+  const router = useRouter()
+
+  const toggleVisibility = () => setIsVisible(!isVisible)
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     mode: 'onTouched',
   })
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log(data)
+  async function onSubmit(data: LoginSchema) {
+    const result = await signInUser(data)
+    if (result.status === 'success') {
+      router.push('/members')
+    } else {
+      toast.error(result.error as string, {
+        icon: <LuShieldAlert size={18} />,
+        action: (
+          <FiX
+            className="ml-auto cursor-pointer text-red-300"
+            size={20}
+            onClick={() => toast.dismiss()}
+          />
+        ),
+        style: {
+          backgroundColor: colors.red[700],
+          color: colors.white,
+        },
+      })
+    }
   }
-
-  const toggleVisibility = () => setIsVisible(!isVisible)
 
   return (
     <Card className="mx-auto w-full max-w-96">
@@ -86,6 +111,7 @@ export function LoginForm() {
             />
             <Button
               className="!pointer-events-auto bg-teal-500 font-bold text-white disabled:cursor-not-allowed"
+              isLoading={isSubmitting}
               isDisabled={!isValid}
               fullWidth
               size="lg"
