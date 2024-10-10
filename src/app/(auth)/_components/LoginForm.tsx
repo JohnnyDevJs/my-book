@@ -34,6 +34,7 @@ export function LoginForm() {
     const result = await signInUser(data)
     if (result.status === 'success') {
       router.push('/members')
+      router.refresh()
     } else {
       toast.error(result.error as string, {
         icon: <LuShieldAlert size={18} />,
@@ -45,7 +46,8 @@ export function LoginForm() {
           />
         ),
         style: {
-          backgroundColor: colors.red[700],
+          backgroundColor: colors.rose[500],
+          border: colors.rose[500],
           color: colors.white,
         },
       })
@@ -53,19 +55,20 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-96">
+    <Card className="mx-auto w-full max-w-96 bg-default/30">
       <CardHeader className="flex flex-col items-center justify-center">
-        <div className="flex items-center gap-2 text-teal-950">
-          <FaLock size={20} />
-          <h1 className="text-xl font-semibold">Login</h1>
+        <div className="flex items-center gap-2">
+          <FaLock size={20} className="text-secondary" />
+          <h1 className="text-xl font-semibold text-foreground">Login</h1>
         </div>
-        <p className="text-slate-500">Seja bem-vindo ao MyBook</p>
+        <p className="text-foreground">Seja bem-vindo ao MyBook</p>
       </CardHeader>
       <CardBody>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <Input
               defaultValue=""
+              color="secondary"
               isRequired
               label="E-mail"
               variant="bordered"
@@ -80,6 +83,7 @@ export function LoginForm() {
             <Input
               isRequired
               defaultValue=""
+              color="secondary"
               label="Senha"
               variant="bordered"
               size="sm"
@@ -93,12 +97,12 @@ export function LoginForm() {
                 >
                   {isVisible ? (
                     <FiEyeOff
-                      className="eye pointer-events-none text-sm text-teal-900"
+                      className="eye pointer-events-none text-sm text-secondary"
                       strokeWidth={2.5}
                     />
                   ) : (
                     <FiEye
-                      className="eye pointer-events-none text-sm text-teal-900"
+                      className="eye pointer-events-none text-sm text-secondary"
                       strokeWidth={2.5}
                     />
                   )}
@@ -110,12 +114,12 @@ export function LoginForm() {
               errorMessage={<ErrorMessage message={errors.password?.message} />}
             />
             <Button
-              className="!pointer-events-auto bg-teal-500 font-bold text-white disabled:cursor-not-allowed"
+              color="secondary"
+              className="!pointer-events-auto font-bold text-secondary-600 disabled:cursor-not-allowed"
               isLoading={isSubmitting}
               isDisabled={!isValid}
               fullWidth
               size="lg"
-              color="default"
               type="submit"
             >
               Acessar

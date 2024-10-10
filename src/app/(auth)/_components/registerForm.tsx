@@ -47,19 +47,20 @@ export function RegisterForm() {
     setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
 
   return (
-    <Card className="mx-auto w-full max-w-96">
+    <Card className="mx-auto w-full max-w-96 bg-default/30">
       <CardHeader className="flex flex-col items-center justify-center">
-        <div className="flex items-center gap-2 text-teal-950">
-          <FaUserPlus size={20} />
-          <h1 className="text-xl font-semibold">Cadastre-se</h1>
+        <div className="flex items-center gap-2">
+          <FaUserPlus size={20} className="text-secondary" />
+          <h1 className="text-xl font-semibold text-foreground">Cadastre-se</h1>
         </div>
-        <p className="text-slate-500">Obtenha acesso ao MyBook</p>
+        <p className="text-foreground">Obtenha acesso ao MyBook</p>
       </CardHeader>
       <CardBody>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
             <Input
               defaultValue=""
+              color="secondary"
               isRequired
               label="Nome completo"
               variant="bordered"
@@ -75,6 +76,7 @@ export function RegisterForm() {
             <Input
               defaultValue=""
               isRequired
+              color="secondary"
               label="E-mail"
               variant="bordered"
               size="sm"
@@ -87,6 +89,7 @@ export function RegisterForm() {
             <Input
               isRequired
               defaultValue=""
+              color="secondary"
               label="Senha"
               variant="bordered"
               size="sm"
@@ -100,12 +103,12 @@ export function RegisterForm() {
                 >
                   {isVisible ? (
                     <FiEyeOff
-                      className="eye pointer-events-none text-sm text-teal-900"
+                      className="eye pointer-events-none text-sm text-secondary"
                       strokeWidth={2.5}
                     />
                   ) : (
                     <FiEye
-                      className="eye pointer-events-none text-sm text-teal-900"
+                      className="eye pointer-events-none text-sm text-secondary"
                       strokeWidth={2.5}
                     />
                   )}
@@ -119,6 +122,7 @@ export function RegisterForm() {
             <Input
               isRequired
               defaultValue=""
+              color="secondary"
               label="Confirmar senha"
               variant="bordered"
               size="sm"
@@ -132,12 +136,12 @@ export function RegisterForm() {
                 >
                   {isConfirmPasswordVisible ? (
                     <FiEyeOff
-                      className="eye pointer-events-none text-sm text-teal-900"
+                      className="eye pointer-events-none text-sm text-secondary"
                       strokeWidth={2.5}
                     />
                   ) : (
                     <FiEye
-                      className="eye pointer-events-none text-sm text-teal-900"
+                      className="eye pointer-events-none text-sm text-secondary"
                       strokeWidth={2.5}
                     />
                   )}
@@ -156,12 +160,12 @@ export function RegisterForm() {
               </p>
             )}
             <Button
-              className="!pointer-events-auto bg-teal-500 font-bold text-white disabled:cursor-not-allowed"
+              className="!pointer-events-auto font-bold text-secondary-600 disabled:cursor-not-allowed"
+              color="secondary"
               isLoading={isSubmitting}
               isDisabled={!isValid}
               fullWidth
               size="lg"
-              color="default"
               type="submit"
             >
               Cadastrar

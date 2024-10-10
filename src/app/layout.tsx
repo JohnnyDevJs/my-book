@@ -27,7 +27,9 @@ export default function RootLayout({
       <body className={cn(openSans.variable, 'font-open-sans antialiased')}>
         <Providers>
           <TopNav />
-          <main>{children}</main>
+          <main className="vertical-center relative items-baseline bg-background text-foreground">
+            {children}
+          </main>
           <Footer />
         </Providers>
       </body>

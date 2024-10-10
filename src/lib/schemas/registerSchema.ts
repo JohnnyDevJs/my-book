@@ -24,7 +24,7 @@ export const registerSchema = z
       }),
     confirmPassword: z
       .string()
-      .min(1, { message: 'Confirme sua nova senha' })
+      .min(1, { message: 'Confirme sua senha.' })
       .regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, {
         message:
           'A confirmação de senha precisa seguir os requisitos da senha.',

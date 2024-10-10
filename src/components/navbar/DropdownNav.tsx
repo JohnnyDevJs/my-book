@@ -7,76 +7,99 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react'
-import { IoMenu } from 'react-icons/io5'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Session } from 'next-auth'
+import { RiMenu3Line } from 'react-icons/ri'
 
-export function DropdownNav() {
+import { cn } from '@/lib/utils'
+type DropdownNavProps = {
+  session: Session | null
+}
+
+type MenuItemProps = {
+  key: string
+  label: string
+  href: string
+}
+
+export function DropdownNav({ session }: DropdownNavProps) {
+  const pathname = usePathname()
+
+  const items: MenuItemProps[] = [
+    {
+      key: 'members',
+      label: 'Membros',
+      href: '/members',
+    },
+    {
+      key: 'lists',
+      label: 'Listas',
+      href: '/lists',
+    },
+    {
+      key: 'messages',
+      label: 'Mensagens',
+      href: '/messages',
+    },
+  ]
   return (
-    <Dropdown>
+    <Dropdown className="bg-background" placement="bottom-end">
       <DropdownTrigger>
         <Button
           variant="bordered"
-          className="min-w-0 border-teal-400 px-2 sm:hidden"
+          className="h-10 w-10 min-w-0 border-secondary px-2 sm:hidden"
         >
-          <IoMenu size={30} className="text-teal-400" />
+          <RiMenu3Line size={30} className="text-secondary" />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu
-        variant="flat"
-        classNames={{
-          list: ['text-base', 'text-teal-900', 'font-semibold'],
-        }}
-      >
-        <DropdownItem
-          key="members"
-          href="/members"
-          className="hover:!bg-transparent hover:!text-teal-500"
-        >
-          Membros
-        </DropdownItem>
-        <DropdownItem
-          key="lists"
-          href="/lists"
-          className="hover:!bg-transparent hover:!text-teal-500"
-        >
-          Listas
-        </DropdownItem>
-        <DropdownItem
-          key="messages"
-          href="/messages"
-          className="hover:!bg-transparent hover:!text-teal-500"
-        >
-          Mensagens
-        </DropdownItem>
 
-        <DropdownItem
-          key="login"
-          href="/login"
-          className="hover:!bg-transparent hover:!text-white"
-        >
-          <Button
-            fullWidth
-            size="md"
-            variant="bordered"
-            className="border-teal-500 font-bold text-teal-500"
-          >
-            Login
-          </Button>
-        </DropdownItem>
+      <DropdownMenu aria-label="Dynamic Actions" variant="flat">
+        <>
+          {items.map((item) => (
+            <DropdownItem key={item.key} className="group hover:!bg-secondary">
+              <Link
+                href={item.href}
+                className={cn(
+                  'w-full text-sm font-semibold text-foreground group-hover:!text-secondary-600',
+                  pathname === item.href && 'text-secondary',
+                )}
+              >
+                {item.label}
+              </Link>
+            </DropdownItem>
+          ))}
 
-        <DropdownItem
-          key="register"
-          href="/register"
-          className="hover:!bg-transparent hover:!text-white"
-        >
-          <Button
-            fullWidth
-            size="md"
-            variant="flat"
-            className="bg-teal-500/20 font-bold text-teal-500"
-          >
-            Cadastrar
-          </Button>
-        </DropdownItem>
+          {!session && (
+            <>
+              <DropdownItem key="login">
+                <Link href="/login">
+                  <Button
+                    fullWidth
+                    size="md"
+                    variant="bordered"
+                    className="border-foreground font-bold text-foreground"
+                  >
+                    Login
+                  </Button>
+                </Link>
+              </DropdownItem>
+
+              <DropdownItem key="register">
+                <Link href="/register">
+                  <Button
+                    fullWidth
+                    size="md"
+                    color="secondary"
+                    className="font-bold text-secondary-600"
+                  >
+                    Cadastrar
+                  </Button>
+                </Link>
+              </DropdownItem>
+            </>
+          )}
+        </>
       </DropdownMenu>
     </Dropdown>
   )

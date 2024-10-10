@@ -16,7 +16,7 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return NextResponse.redirect(new URL('/members', nextUrl))
+      return Response.redirect(new URL('/members', nextUrl))
     }
 
     return NextResponse.next()
@@ -30,5 +30,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

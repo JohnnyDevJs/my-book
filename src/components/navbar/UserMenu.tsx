@@ -19,13 +19,13 @@ type UserMenuProps = {
 
 export function UserMenu({ user }: UserMenuProps) {
   return (
-    <Dropdown placement="bottom-end">
+    <Dropdown placement="bottom-end" className="bg-background">
       <DropdownTrigger>
         <Avatar
           isBordered
           as="button"
-          className="bg-teal-400 uppercase text-white ring-teal-500 transition-transform [&>span]:font-bold"
-          color="default"
+          className="uppercase text-secondary-600 transition-transform [&>span]:font-bold"
+          color="secondary"
           name={getInitials(user?.name as string)}
           size="sm"
           src={user?.image as string}
@@ -45,14 +45,14 @@ export function UserMenu({ user }: UserMenuProps) {
         <DropdownItem
           as={Link}
           href="/members/edit"
-          className="text-slate-500 hover:!bg-teal-400 hover:!text-white [&>span]:font-semibold"
+          className="text-foreground hover:!bg-secondary hover:!text-secondary-600 [&>span]:font-semibold"
         >
           Perfil
         </DropdownItem>
         <DropdownItem
           color="danger"
           onClick={async () => signOutUser()}
-          className="text-slate-500 [&>span]:font-semibold"
+          className="text-foreground [&>span]:font-semibold"
         >
           Sair
         </DropdownItem>

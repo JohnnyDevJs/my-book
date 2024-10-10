@@ -13,7 +13,12 @@ export function NavLink({ href, label }: Props) {
   const pathname = usePathname()
 
   return (
-    <NavbarItem isActive={pathname === href} as={Link} href={href}>
+    <NavbarItem
+      isActive={pathname === href}
+      as={Link}
+      href={href}
+      className="text-foreground hover:text-secondary"
+    >
       {label}
     </NavbarItem>
   )

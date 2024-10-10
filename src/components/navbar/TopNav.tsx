@@ -7,6 +7,7 @@ import { auth } from '@/auth'
 import { NavLink } from '@/components/navbar/NavLink'
 
 import { DropdownNav } from './DropdownNav'
+import { ThemeSwitcher } from './ThemeSwitcher'
 import { UserMenu } from './UserMenu'
 
 export async function TopNav() {
@@ -14,20 +15,21 @@ export async function TopNav() {
 
   return (
     <Navbar
+      isBordered
       maxWidth="xl"
-      className="bg-gradient-to-r from-teal-800 to-teal-500"
+      className="bg-background"
       classNames={{
         item: [
           'text-base',
           'text-white',
           'font-semibold',
-          'data-[active=true]:text-teal-900',
+          'data-[active=true]:text-secondary',
         ],
       }}
     >
       <NavbarBrand as={Link} href="/">
-        <SiGitbook size={30} className="text-teal-950" />
-        <span className="ml-2 text-2xl font-bold text-white">MyBook</span>
+        <SiGitbook size={30} className="text-secondary" />
+        <span className="ml-2 text-2xl font-bold text-foreground">MyBook</span>
       </NavbarBrand>
       <NavbarContent justify="center" className="max-sm:hidden">
         <NavLink href="/members" label="Membros" />
@@ -35,7 +37,8 @@ export async function TopNav() {
         <NavLink href="/messages" label="Mensagens" />
       </NavbarContent>
       <NavbarContent justify="end">
-        <DropdownNav />
+        <DropdownNav session={session} />
+        <ThemeSwitcher />
         {session?.user ? (
           <UserMenu user={session.user} />
         ) : (
@@ -44,17 +47,17 @@ export async function TopNav() {
               as={Link}
               href="/login"
               variant="bordered"
-              className="border-white font-bold text-white max-sm:hidden"
+              className="border-foreground font-bold text-foreground max-sm:hidden"
             >
               Login
             </Button>
             <Button
               as={Link}
               href="/register"
-              variant="flat"
-              className="font-bold text-white max-sm:hidden"
+              color="secondary"
+              className="font-bold text-secondary-600 max-sm:hidden"
             >
-              Cadastrar
+              Cadastre-se
             </Button>
           </>
         )}

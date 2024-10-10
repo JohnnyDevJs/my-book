@@ -5,7 +5,7 @@ import { auth, signOut } from '@/auth'
 export default async function Home() {
   const session = await auth()
   return (
-    <section className="vertical-center flex items-center justify-center p-4 align-middle">
+    <section className="flex h-full items-center justify-center p-4 align-middle">
       {session ? (
         <div>
           <pre>{JSON.stringify(session, null, 2)}</pre>

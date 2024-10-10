@@ -3,18 +3,30 @@
 @tailwind utilities;
 
 @layer components {
+
+  .container {
+    @apply max-w-[1280px] mx-auto px-6;
+  }
+
   .vertical-center {
-    height: calc(100vh - 7.25rem);
+    min-height: calc(100vh - 7.313rem);
+    height: auto;
   }
 
   [data-slot="input-wrapper"] {
-    @apply !border-slate-300 focus-within:!border-teal-500;
+    @apply !border-slate-300 focus-within:!border-secondary;
   }
 
   [data-slot="input-wrapper"] svg path {
-    @apply fill-teal-900;
+    @apply fill-secondary;
   }
+
   [data-slot="input-wrapper"] svg.eye path {
     @apply fill-none;
   }
+
+  .group[data-selected="true"] .group-data-\[selected\=true\]\:text-secondary-foreground {
+    @apply !text-secondary-600 !font-bold;
+  }
 }
+
